@@ -1,6 +1,6 @@
-# 🐧 Vagrant — VM Debian 12 (Bookworm)
+# 🐧 Serveur DevSecOps — VM Debian 12 (Vagrant)
 
-Machine virtuelle Debian 12 simple et propre, prête en une commande.
+Machine virtuelle configurée comme une véritable instance Cloud (GCP/AWS) pour le Bootcamp DevSecOps organisé par **DIKONGUE SAMUEL**.
 
 ---
 
@@ -13,15 +13,36 @@ Machine virtuelle Debian 12 simple et propre, prête en une commande.
 
 ---
 
-## ⚡ Démarrage
+## ⚡ Démarrage Rapide
+
+Un script a été mis en place pour lancer la machine et s'y connecter automatiquement avec les privilèges `root` :
 
 ```bash
-git clone https://github.com/<ton-username>/vagrant-debian.git
-cd vagrant-debian
-
-vagrant up       # Crée et configure la VM (~3 min)
-vagrant ssh      # Connexion SSH
+chmod +x launch_vps.sh  # Si ce n'est pas déjà fait
+./launch_vps.sh
 ```
+
+*(Si vous préférez utiliser Vagrant directement : `vagrant up` puis `vagrant ssh`, la connexion basculera automatiquement sur l'utilisateur `root`.)*
+
+---
+
+## 🌟 Fonctionnalités DevSecOps
+
+- **Environnement de Production** : Connexion par défaut avec les droits **`root`** pour s'entraîner aux tâches d'administration et de sécurité.
+- **Serveur Web Intégré** : **Nginx** est pré-installé avec une page d'accueil personnalisée pour le Bootcamp (disponible sur le port 8080).
+- **MOTD Personnalisé** : Message d'accueil "Bootcamp DevSecOps" exclusif à la connexion SSH.
+- **Nom d'hôte** : `devsecops-vm`
+
+---
+
+## 🌐 Réseau et Services
+
+| Service / Accès | Adresse / IP |
+|---|---|
+| **IP Réseau Privé** | `192.168.56.10` |
+| **Site Web DevSecOps (Nginx)** | `http://localhost:8080` |
+| Port 8000 | `http://localhost:8008` |
+| Port 3000 | `http://localhost:3030` |
 
 ---
 
@@ -29,48 +50,35 @@ vagrant ssh      # Connexion SSH
 
 | Catégorie | Paquets |
 |---|---|
+| **Serveur Web** | **nginx** |
 | Outils de base | curl, wget, git, vim, nano, htop, tree |
 | Réseau | net-tools, iputils-ping, dnsutils |
 | Développement | build-essential, make, gcc |
-| Utilitaires | unzip, zip, bash-completion, man |
+| Utilitaires | unzip, zip, bash-completion, man, sudo |
 
 ---
 
-## 🌐 Réseau
+## 📁 Structure du Projet
 
-| Accès | Adresse |
-|---|---|
-| IP réseau privé | `192.168.56.10` |
-| Port 80 (web) | `http://localhost:8080` |
-| Port 8000 | `http://localhost:8000` |
-| Port 3000 | `http://localhost:3000` |
-
----
-
-## 📁 Structure
-
-```
+```text
 vagrant-debian/
-├── Vagrantfile          # Config de la VM
-├── .gitignore
-├── README.md
+├── Vagrantfile          # Configuration de la VM
+├── launch_vps.sh        # Script de démarrage et connexion rapide
+├── README.md            # Ce fichier
 ├── scripts/
-│   └── install.sh       # Script de provisioning
-└── workspace/           # Dossier partagé → ~/workspace dans la VM
+│   └── install.sh       # Script de provisioning (installations + MOTD + Nginx)
+└── workspace/           # Dossier synchronisé → /root/workspace dans la VM
 ```
 
 ---
 
-## 🔧 Commandes
+## 🔧 Commandes Vagrant Utiles
 
 ```bash
-vagrant up          # Démarrer la VM
-vagrant ssh         # Se connecter
-vagrant halt        # Éteindre
-vagrant reload      # Redémarrer
-vagrant provision   # Relancer le script d'installation
-vagrant destroy     # Supprimer la VM
-vagrant status      # État de la VM
+vagrant reload --provision  # Appliquer des modifications de install.sh
+vagrant halt                # Éteindre la VM
+vagrant destroy             # Supprimer la VM
+vagrant status              # Vérifier l'état de la VM
 ```
 
 ---

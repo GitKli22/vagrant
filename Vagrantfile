@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "generic/debian12"
 
   # ── Hostname ─────────────────────────────────────────────────────────────
-  config.vm.hostname = "debian-dev"
+  config.vm.hostname = "devsecops-vm"
 
   # ── Réseau ───────────────────────────────────────────────────────────────
   config.vm.network "private_network", ip: "192.168.56.10"
@@ -29,8 +29,8 @@ Vagrant.configure("2") do |config|
   # ── Dossier partagé ──────────────────────────────────────────────────────
   # Le dossier courant est monté dans /vagrant automatiquement
   # Dossier de travail supplémentaire :
-  config.vm.synced_folder "./workspace", "/home/vagrant/workspace",
-    create: true
+  config.vm.synced_folder "./workspace", "/root/workspace",
+    create: true, owner: "root", group: "root"
 
   # ── Ressources VirtualBox ────────────────────────────────────────────────
   config.vm.provider "virtualbox" do |vb|
